@@ -3,12 +3,19 @@ package com.example.gasolinaoualcoolapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import com.example.gasolinaoualcoolapp.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.buttonCalcular
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var etGasolina: EditText
+    private lateinit var etAlcool: EditText
+    private lateinit var btCalcular: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,9 +23,11 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    fun calcularPreco(view: View) {
+        //Inicializando por meio da viewBinding Manualmente (usando private lateinit):
+        startingComponents()
+
+        btCalcular.setOnClickListener { calcularPreco() }
 
         //Inicializando as Views de Forma Padrão pelo findViewById:
         /*val precoAlcool = findViewById<EditText>(R.id.editTextPrecoAlcool)
@@ -27,10 +36,12 @@ class MainActivity : AppCompatActivity() {
         //Inicializando as Views por Meio da Extensão/Plugin do Kotlin para viewbinding:
         /*val precoAlcool = editTextPrecoAlcool.text.toString()
         val precoGasolina = editTextPrecoGasolina.text.toString()*/
+    }
 
-        //Inicializando por meio da viewBinding Manualmente (usando private lateinit):
-        val precoAlcool = editTextPrecoAlcool.text.toString()
-        val precoGasolina = editTextPrecoGasolina.text.toString()
+    fun calcularPreco() {
+
+        val precoGasolina = etGasolina.text.toString()
+        val precoAlcool = etAlcool.text.toString()
 
         val validaCampos = validarCampos(precoAlcool, precoGasolina)
 
@@ -77,6 +88,12 @@ class MainActivity : AppCompatActivity() {
             textViewResultado.text = "Melhor Utilizar Álcool!!!"
         }
 
+    }
+
+    private fun startingComponents(){
+        etGasolina = binding.editTextPrecoGasolina
+        etAlcool = binding.editTextPrecoAlcool
+        btCalcular = binding.buttonCalcular
     }
 
 }
